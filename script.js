@@ -1,5 +1,6 @@
 const products = document.getElementById('products');
 const item = document.getElementById('item');
+const cartSection = document.getElementById('cart');
 
 // endpoint to fetch data
 // development
@@ -21,11 +22,16 @@ function addStock(data) {
 		`;
 }
 
-// add to cart
-function addToCart(e) {
-	console.log(e);
+// display items to the cart
+function addToCart(cartArray) {
+	const basket = cartSection.querySelector('div');
+	basket.innerHTML = `${cartArray.map(
+		(item) =>
+			`<div class="item"><h2>${item.item} - ${item.price} ${item.currency}</h2><button>Remove</button></div>`
+	)}`;
 }
 
+// event listeners
 window.addEventListener('DOMContentLoaded', () => {
 	fetch(endpoint)
 		.then((res) => {
@@ -52,5 +58,6 @@ products.addEventListener('click', (e) => {
 			currency,
 		});
 		console.log(cart);
+		addToCart(cart);
 	}
 });
