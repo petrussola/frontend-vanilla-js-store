@@ -3,10 +3,10 @@ const item = document.getElementById('item');
 
 // endpoint to fetch data
 // development
-const endpoint = 'http://localhost:3000/.netlify/functions/api';
+// const endpoint = 'http://localhost:3000/.netlify/functions/api';
 // production
-// const endpoint =
-// 	'https://netlify-express-pere-test.netlify.app/.netlify/functions/api';
+const endpoint =
+	'https://netlify-express-pere-test.netlify.app/.netlify/functions/api';
 
 // state
 const cart = [];
