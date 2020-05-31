@@ -12,23 +12,32 @@ const endpoint =
 // state
 const cart = [];
 
+// fetch items from backend
 function addStock(data) {
-	products.innerHTML += `
-	${data.map(
-		(item) => `<div class="item">
-		<h2>${item.name} - ${item.price} ${item.currency}</h2><button data-item="${item.name}" data-price="${item.price}" data-currency="${item.currency}">Add to cart</button>
-		</div>`
-	)}
-		`;
+	products.innerHTML += data
+		.map(
+			(item) => `<div class="item">
+	<h3>${item.name} - ${item.price} ${item.currency}</h3><button data-item="${item.name}" data-price="${item.price}" data-currency="${item.currency}">Add to cart</button>
+	</div>`
+		)
+		.join('');
 }
 
 // display items to the cart
 function addToCart(cartArray) {
-	const basket = cartSection.querySelector('div');
-	basket.innerHTML = `${cartArray.map(
-		(item) =>
-			`<div class="item"><h2>${item.item} - ${item.price} ${item.currency}</h2><button>Remove</button></div>`
-	)}`;
+	const basket = cartSection.querySelector('#cart-details');
+	const total = cartSection.querySelector('#cart-total');
+	const totalAmount = cartArray.reduce((a, b) => {
+		return a + parseInt(b.price, 10);
+	}, 0);
+	console.log(totalAmount);
+	basket.innerHTML = cartArray
+		.map(
+			(item) =>
+				`<div class="item"><h3>${item.item} - ${item.price} ${item.currency}</h3><button>Remove</button></div>`
+		)
+		.join('');
+	total.innerHTML = `Total: ${totalAmount} EUR`;
 }
 
 // event listeners
@@ -57,7 +66,6 @@ products.addEventListener('click', (e) => {
 			price,
 			currency,
 		});
-		console.log(cart);
 		addToCart(cart);
 	}
 });
