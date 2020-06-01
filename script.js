@@ -2,6 +2,7 @@ const products = document.getElementById('products');
 const item = document.getElementById('item');
 const cartSection = document.getElementById('cart');
 const cartDetails = document.getElementById('cart-details');
+const form = document.getElementById('payment-form');
 
 // endpoint to fetch data
 // development
@@ -13,6 +14,12 @@ const endpoint = 'http://localhost:3000/.netlify/functions/api';
 // state
 let cart = [];
 let counterCartItem = 0;
+let totalAmount = 0;
+
+//stripe
+var stripe = Stripe('pk_test_h8MeWS53S1PWBKuif0ev6BjO00VnXGmdmn');
+var elements = stripe.elements();
+var card;
 
 // empty cart
 function emptyCart() {
@@ -55,7 +62,7 @@ function removeFromCart(id) {
 function displayCartToScreen(cartArray) {
 	const basket = cartSection.querySelector('#cart-details');
 	const total = cartSection.querySelector('#cart-total');
-	const totalAmount = cartArray.reduce((a, b) => {
+	totalAmount = cartArray.reduce((a, b) => {
 		return a + parseInt(b.price, 10);
 	}, 0);
 	basket.innerHTML = cartArray
@@ -79,6 +86,25 @@ window.addEventListener('DOMContentLoaded', () => {
 		.catch((err) => {
 			console.log(err);
 		});
+	// Set up Stripe.js and Elements to use in checkout form
+	var style = {
+		base: {
+			color: '#32325d',
+			fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+			fontSmoothing: 'antialiased',
+			fontSize: '16px',
+			'::placeholder': {
+				color: '#aab7c4',
+			},
+		},
+		invalid: {
+			color: '#fa755a',
+			iconColor: '#fa755a',
+		},
+	};
+
+	card = elements.create('card', { style: style });
+	card.mount('#card-element');
 });
 
 // event listener to add to cart
@@ -98,5 +124,60 @@ cartDetails.addEventListener('click', (e) => {
 	if (clickedEl.tagName === 'BUTTON') {
 		const id = clickedEl.getAttribute('data-productId');
 		removeFromCart(id);
+	}
+});
+
+// payment form change
+// card.on('change', ({ error }) => {
+// 	const displayError = document.getElementById('card-errors');
+// 	if (error) {
+// 		displayError.textContent = error.message;
+// 	} else {
+// 		displayError.textContent = '';
+// 	}
+// });
+
+// submit payment form
+form.addEventListener('submit', async function (ev) {
+	ev.preventDefault();
+	console.log('submitted');
+	let bodyPayment = { amountCart: totalAmount };
+	try {
+		const res = await fetch(`${endpoint}/secret`, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(bodyPayment),
+		});
+		const secret = await res.json();
+		stripe
+			.confirmCardPayment(secret.client_secret, {
+				payment_method: {
+					card: card,
+					billing_details: {
+						name: 'Jenny Rosen',
+					},
+				},
+			})
+			.then(function (result) {
+				if (result.error) {
+					// Show error to your customer (e.g., insufficient funds)
+					console.log(result.error.message);
+				} else {
+					// The payment has been processed!
+					if (result.paymentIntent.status === 'succeeded') {
+						// Show a success message to your customer
+						// There's a risk of the customer closing the window before callback
+						// execution. Set up a webhook or plugin to listen for the
+						// payment_intent.succeeded event that handles any business critical
+						// post-payment actions.
+						console.log("yay")
+					}
+				}
+			});
+	} catch (error) {
+		console.log(error);
 	}
 });
