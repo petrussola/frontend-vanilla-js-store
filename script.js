@@ -3,6 +3,7 @@ const item = document.getElementById('item');
 const cartSection = document.getElementById('cart');
 const cartDetails = document.getElementById('cart-details');
 const form = document.getElementById('payment-form');
+const paymentButton = document.getElementById('submit');
 
 // endpoint to fetch data
 // development
@@ -105,6 +106,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	card = elements.create('card', { style: style });
 	card.mount('#card-element');
+
+	// payment form change
+	card.on('change', ({ error, complete }) => {
+		const displayError = document.getElementById('card-errors');
+		if (error) {
+			displayError.textContent = error.message;
+		} else if (complete) {
+			paymentButton.disabled = false;
+		} else {
+			displayError.textContent = '';
+		}
+	});
 });
 
 // event listener to add to cart
@@ -126,16 +139,6 @@ cartDetails.addEventListener('click', (e) => {
 		removeFromCart(id);
 	}
 });
-
-// payment form change
-// card.on('change', ({ error }) => {
-// 	const displayError = document.getElementById('card-errors');
-// 	if (error) {
-// 		displayError.textContent = error.message;
-// 	} else {
-// 		displayError.textContent = '';
-// 	}
-// });
 
 // submit payment form
 form.addEventListener('submit', async function (ev) {
@@ -173,7 +176,7 @@ form.addEventListener('submit', async function (ev) {
 						// execution. Set up a webhook or plugin to listen for the
 						// payment_intent.succeeded event that handles any business critical
 						// post-payment actions.
-						console.log("yay")
+						console.log('yay');
 					}
 				}
 			});
