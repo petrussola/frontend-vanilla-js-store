@@ -56,6 +56,9 @@ function removeFromCart(id) {
 		return item.id !== parseInt(id, 10);
 	});
 	cart = newCart;
+	if (cart.length === 0) {
+		form.classList.add('hidden');
+	}
 	displayCartToScreen(newCart);
 }
 
@@ -76,7 +79,7 @@ function displayCartToScreen(cartArray) {
 }
 
 // event listeners
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
 	fetch(endpoint)
 		.then((res) => {
 			return res.json();
@@ -120,10 +123,16 @@ window.addEventListener('DOMContentLoaded', () => {
 	});
 });
 
-// event listener to add to cart
+// add items to cart
 products.addEventListener('click', (e) => {
 	const clickedEl = e.target;
 	if (clickedEl.tagName === 'BUTTON') {
+		// payment form is hidden by default
+		// when adding a item to the cart, if class is hidden
+		// we remove it
+		if (form.classList.contains('hidden')) {
+			form.classList.remove('hidden');
+		}
 		const item = clickedEl.getAttribute('data-item');
 		const price = clickedEl.getAttribute('data-price');
 		const currency = clickedEl.getAttribute('data-currency');
@@ -131,7 +140,7 @@ products.addEventListener('click', (e) => {
 	}
 });
 
-// event listener to remove item
+// remove item from cart
 cartDetails.addEventListener('click', (e) => {
 	const clickedEl = e.target;
 	if (clickedEl.tagName === 'BUTTON') {

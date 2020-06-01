@@ -70,7 +70,10 @@ body {
 #payment-form {
 	width: 100%;
 	padding: 0.5rem;
-	/* border: 1px solid red; */
+}
+
+.hidden {
+	visibility: hidden;
 }
 
 #payment-form button {
@@ -86,6 +89,11 @@ body {
 
 #card-element {
 	margin: 0.5rem 0;
+}
+
+#submit:disabled {
+	background-color: #777;
+	border-color: #777;
 }
 
 /* Stripe */
