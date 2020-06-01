@@ -96,6 +96,25 @@ body {
 	border-color: #777;
 }
 
+#payment-outcome {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 0.5rem;
+}
+
+#payment-outcome.success {
+	background-color: green;
+	color: white;
+}
+
+#payment-outcome.error {
+	background-color: red;
+	color: white;
+}
+
 /* Stripe */
 .StripeElement {
 	box-sizing: border-box;

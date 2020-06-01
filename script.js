@@ -4,6 +4,7 @@ const cartSection = document.getElementById('cart');
 const cartDetails = document.getElementById('cart-details');
 const form = document.getElementById('payment-form');
 const paymentButton = document.getElementById('submit');
+const paymentOutcome = document.getElementById('payment-outcome');
 
 // endpoint to fetch data
 // development
@@ -176,7 +177,8 @@ form.addEventListener('submit', async function (ev) {
 			.then(function (result) {
 				if (result.error) {
 					// Show error to your customer (e.g., insufficient funds)
-					console.log(result.error.message);
+					paymentOutcome.textContent = result.error.message;
+					paymentOutcome.classList.add('error');
 				} else {
 					// The payment has been processed!
 					if (result.paymentIntent.status === 'succeeded') {
@@ -185,7 +187,8 @@ form.addEventListener('submit', async function (ev) {
 						// execution. Set up a webhook or plugin to listen for the
 						// payment_intent.succeeded event that handles any business critical
 						// post-payment actions.
-						console.log('yay');
+						paymentOutcome.textContent = 'Payment succeded';
+						paymentOutcome.classList.add('success');
 					}
 				}
 			});
