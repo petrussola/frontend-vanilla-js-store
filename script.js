@@ -6,6 +6,7 @@ const paymentSection = document.getElementById('payment');
 const form = document.getElementById('payment-form');
 const paymentButton = document.getElementById('submit');
 const paymentOutcome = document.getElementById('payment-outcome');
+const billingForm = document.getElementById('billing-details');
 
 // endpoint to fetch data
 // development
@@ -18,6 +19,13 @@ const endpoint = 'http://localhost:3000/.netlify/functions/api';
 let cart = [];
 let counterCartItem = 0;
 let totalAmount = 0;
+let billingDetails = {
+	name: '',
+	address: '',
+	city: '',
+	postalcode: '',
+	country: '',
+};
 
 //stripe
 var stripe = Stripe('pk_test_h8MeWS53S1PWBKuif0ev6BjO00VnXGmdmn');
@@ -196,4 +204,15 @@ form.addEventListener('submit', async function (ev) {
 	} catch (error) {
 		console.log(error);
 	}
+});
+
+// on change input fields billing details
+const formControl = document.querySelectorAll('.form-control');
+formControl.forEach((item) => {
+	const inputField = item.querySelectorAll('input');
+	inputField.forEach((element) => {
+		element.addEventListener('keyup', (e) => {
+			billingDetails[e.target.id] = e.target.value;
+		});
+	});
 });
