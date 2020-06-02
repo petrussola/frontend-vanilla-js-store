@@ -25,6 +25,7 @@ let billingDetails = {
 	city: '',
 	postalcode: '',
 	country: '',
+	email: '',
 };
 
 //stripe
@@ -194,8 +195,9 @@ form.addEventListener('submit', async function (ev) {
 							city: billingDetails.city,
 							country: billingDetails.country,
 							line1: billingDetails.address,
-							'postal_code': billingDetails.postalcode,
+							postal_code: billingDetails.postalcode,
 						},
+						email: billingDetails.email,
 					},
 				},
 			})
