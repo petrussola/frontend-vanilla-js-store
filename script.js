@@ -10,10 +10,10 @@ const billingForm = document.getElementById('billing-details');
 
 // endpoint to fetch data
 // development
-const endpoint = 'http://localhost:3000/.netlify/functions/api';
+// const endpoint = 'http://localhost:3000/.netlify/functions/api';
 // production
-// const endpoint =
-// 	'https://netlify-express-pere-test.netlify.app/.netlify/functions/api';
+const endpoint =
+	'https://netlify-express-pere-test.netlify.app/.netlify/functions/api';
 
 // state
 let cart = [];
@@ -216,6 +216,8 @@ form.addEventListener('submit', async function (ev) {
 						// post-payment actions.
 						paymentOutcome.textContent = 'Payment succeded';
 						paymentOutcome.classList.add('success');
+						billingForm.reset();
+						form.reset();
 					}
 				}
 			});
@@ -234,3 +236,5 @@ formControl.forEach((item) => {
 		});
 	});
 });
+
+console.log(ISOCountryNames);
