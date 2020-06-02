@@ -14,8 +14,8 @@ body {
 	flex-flow: row wrap;
 	align-items: flex-start;
 	justify-content: space-around;
-	height: 95vh;
-	margin: 0 1rem;
+	/* height: 98vh; */
+	margin: 0.5rem;
 	border: 1px solid gray;
 	background-color: #fff;
 	border-radius: 4px;
@@ -63,6 +63,50 @@ body {
 .item button {
 	padding: 0.2rem;
 	margin: 1rem;
+}
+
+/* Billing details */
+#billing-details {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	width: 100%;
+	padding: 0 0.5rem;
+}
+
+.form-control {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 0.2rem;
+}
+
+#city-pc {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-evenly;
+	width: 100%;
+}
+
+#city-pc .form-control {
+	width: 50%;
+}
+
+.form-control label {
+	color: #777;
+	padding: 0.5rem;
+	font-size: 0.8rem;
+}
+
+.form-control input {
+	padding: 0.5rem;
+	font-size: 0.8rem;
+}
+
+.form-control small {
+	padding: 0.2rem;
 }
 
 /* Payment form */

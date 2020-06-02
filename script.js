@@ -2,6 +2,7 @@ const products = document.getElementById('products');
 const item = document.getElementById('item');
 const cartSection = document.getElementById('cart');
 const cartDetails = document.getElementById('cart-details');
+const paymentSection = document.getElementById('payment');
 const form = document.getElementById('payment-form');
 const paymentButton = document.getElementById('submit');
 const paymentOutcome = document.getElementById('payment-outcome');
@@ -58,7 +59,7 @@ function removeFromCart(id) {
 	});
 	cart = newCart;
 	if (cart.length === 0) {
-		form.classList.add('hidden');
+		paymentSection.classList.add('hidden');
 	}
 	displayCartToScreen(newCart);
 }
@@ -131,8 +132,8 @@ products.addEventListener('click', (e) => {
 		// payment form is hidden by default
 		// when adding a item to the cart, if class is hidden
 		// we remove it
-		if (form.classList.contains('hidden')) {
-			form.classList.remove('hidden');
+		if (paymentSection.classList.contains('hidden')) {
+			paymentSection.classList.remove('hidden');
 		}
 		const item = clickedEl.getAttribute('data-item');
 		const price = clickedEl.getAttribute('data-price');
