@@ -162,8 +162,18 @@ cartDetails.addEventListener('click', (e) => {
 // submit payment form
 form.addEventListener('submit', async function (ev) {
 	ev.preventDefault();
-	console.log('submitted');
-	let bodyPayment = { amountCart: totalAmount };
+	let bodyPayment = {
+		amount: totalAmount,
+		shipping: {
+			address: {
+				line1: billingDetails.address,
+				city: billingDetails.city,
+				country: billingDetails.country,
+				postal_code: billingDetails.postalcode,
+			},
+			name: billingDetails.name,
+		},
+	};
 	try {
 		const res = await fetch(`${endpoint}/secret`, {
 			method: 'POST',
@@ -179,7 +189,13 @@ form.addEventListener('submit', async function (ev) {
 				payment_method: {
 					card: card,
 					billing_details: {
-						name: 'Jenny Rosen',
+						name: billingDetails.name,
+						address: {
+							city: billingDetails.city,
+							country: billingDetails.country,
+							line1: billingDetails.address,
+							'postal_code': billingDetails.postalcode,
+						},
 					},
 				},
 			})
